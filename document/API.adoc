@@ -1,0 +1,623 @@
+= 
+
+
+Table of Contents
+
+. <<users,Create a user.>>
+. <<login,Login a user.>>
+. <<register,Register a user.>>
+. <<forgotPassword,Forgot Password.>>
+. <<verifyCode,Verify code.>>
+. <<upload,Upload a image.>>
+
+[[users]]
+== [red,white-background]#users#
+
+[width="100%",options="header"]
+|==========
+|Specification |Value 
+|Resource Path |/users 
+|API Version |1.0.0 
+|BasePath for the API |http://127.0.0.1:8000/api/v1 
+|Consumes |application/json 
+|Produces |application/json 
+|==========
+
+
+=== Operations
+
+
+[width="100%",options="header"]
+|==========
+|Resource Path |Operation |Description 
+|/users |<<createUser,POST>> |Create a user. 
+|/users |<<readUsers,GET>> |Read users with parameters. 
+|/users/\{id\} |<<readUser,GET>> |Read a user. 
+|/users/\{id\} |<<updateUser,PUT>> |Update a user. 
+|/users/\{id\} |<<deleteUser,DELETE>> |Delete a user. 
+|==========
+
+
+
+[[createUser]]
+==== [black,green-background]#API: /users (POST)#
+
+
+Create a user.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|Authorization |header |string |Bearer {token} |Yes 
+|email |form |string |User Email. |Yes 
+|password |form |string |User Password. |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |<<model.PublicUser,PublicUser>> |Returns created user 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.bind 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.create 
+|==========
+
+
+[[readUsers]]
+==== [black,cyan-background]#API: /users (GET)#
+
+
+Read users with parameters.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|Authorization |header |string |Bearer {token} |Yes 
+|query |form |string |Will search string. | 
+|offset |form |int |Offset for pagination. | 
+|count |form |int |Count that will show per page. | 
+|field |form |string |Sort field. | 
+|sort |form |int |Sort direction. 0:default, 1:Ascending, -1:Descending | 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |<<api.v1.UsersForm,UsersForm>> |User is deleted correctly. 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.read 
+|==========
+
+
+[[readUser]]
+==== [black,cyan-background]#API: /users/\{id\} (GET)#
+
+
+Read a user.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|Authorization |header |string |Bearer {token} |Yes 
+|id |path |string |User ID. |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |<<model.PublicUser,PublicUser>> |Returns read user 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.bind 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.read 
+|==========
+
+
+[[updateUser]]
+==== [black,orange-background]#API: /users/\{id\} (PUT)#
+
+
+Update a user.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|Authorization |header |string |Bearer {token} |Yes 
+|id |path |string |User ID. |Yes 
+|avatar |form |string |User Avatar |Yes 
+|firstname |form |string |User Firstname |Yes 
+|lastname |form |string |User Lastname |Yes 
+|email |form |string |User Email |Yes 
+|birth |form |Time |User Birth |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |<<model.PublicUser,PublicUser>> |Returns read user 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.bind 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.read 
+|==========
+
+
+[[deleteUser]]
+==== [black,cyan-background]#API: /users/\{id\} (DELETE)#
+
+
+Delete a user.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|Authorization |header |string |Bearer {token} |Yes 
+|id |path |string |User ID. |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |<<response.BasicResponse,BasicResponse>> |User is deleted correctly. 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.bind 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.delete 
+|==========
+
+
+
+=== Models
+
+[[api.v1.UsersForm]]
+==== [orange,white-background]#UsersForm#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|total |int | 
+|users |array | 
+|==========
+
+[[model.PublicUser]]
+==== [orange,white-background]#PublicUser#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|id |ObjectId(string) |Object ID 
+|avatar |string |User avatar url 
+|firstname |string |User firstname 
+|lastname |string |User lastname 
+|facebookUserId |string |When user login or register signup with Facebook, this field will be updated 
+|email |string |User email address 
+|birth |Time |User birth 
+|countryCode |string | 
+|phoneCode |string | 
+|phone |string | 
+|createdAt |Time |User created date 
+|updatedAt |Time |User updated date. This field will be updated when any update operation will be occured 
+|==========
+
+[[response.BasicResponse]]
+==== [orange,white-background]#BasicResponse#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|status |int |HTTP Status 
+|messageType |string |Message type code 
+|message |string |Returned message 
+|==========
+
+
+[[login]]
+== [red,white-background]#login#
+
+[width="100%",options="header"]
+|==========
+|Specification |Value 
+|Resource Path |/login 
+|API Version |1.0.0 
+|BasePath for the API |http://127.0.0.1:8000/api/v1 
+|Consumes |application/json 
+|Produces |application/json 
+|==========
+
+
+=== Operations
+
+
+[width="100%",options="header"]
+|==========
+|Resource Path |Operation |Description 
+|/login |<<loginUser,POST>> |Login a user. 
+|==========
+
+
+
+[[loginUser]]
+==== [black,green-background]#API: /login (POST)#
+
+
+Login a user.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|email |form |string |User Email. |Yes 
+|password |form |string |User Password. |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |<<api.v1.UserForm,UserForm>> |Returns login user 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.bind 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.incorrect 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.token 
+|==========
+
+
+
+=== Models
+
+[[api.v1.UserForm]]
+==== [orange,white-background]#UserForm#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|token |string | 
+|user |model.PublicUser | 
+|==========
+
+[[model.PublicUser]]
+==== [orange,white-background]#PublicUser#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|id |ObjectId(string) |Object ID 
+|avatar |string |User avatar url 
+|firstname |string |User firstname 
+|lastname |string |User lastname 
+|facebookUserId |string |When user login or register signup with Facebook, this field will be updated 
+|email |string |User email address 
+|birth |Time |User birth 
+|countryCode |string | 
+|phoneCode |string | 
+|phone |string | 
+|createdAt |Time |User created date 
+|updatedAt |Time |User updated date. This field will be updated when any update operation will be occured 
+|==========
+
+[[response.BasicResponse]]
+==== [orange,white-background]#BasicResponse#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|status |int |HTTP Status 
+|messageType |string |Message type code 
+|message |string |Returned message 
+|==========
+
+
+[[register]]
+== [red,white-background]#register#
+
+[width="100%",options="header"]
+|==========
+|Specification |Value 
+|Resource Path |/register 
+|API Version |1.0.0 
+|BasePath for the API |http://127.0.0.1:8000/api/v1 
+|Consumes |application/json 
+|Produces |application/json 
+|==========
+
+
+=== Operations
+
+
+[width="100%",options="header"]
+|==========
+|Resource Path |Operation |Description 
+|/register |<<registerUser,POST>> |Register a user. 
+|==========
+
+
+
+[[registerUser]]
+==== [black,green-background]#API: /register (POST)#
+
+
+Register a user.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|firstname |form |string |User Firstname. |Yes 
+|lastname |form |string |User Lastname. |Yes 
+|email |form |string |User Email. |Yes 
+|password |form |string |User Password. |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |<<api.v1.UserForm,UserForm>> |Returns registered user 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.bind 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.exist 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.create 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.token 
+|==========
+
+
+
+=== Models
+
+[[api.v1.UserForm]]
+==== [orange,white-background]#UserForm#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|token |string | 
+|user |model.PublicUser | 
+|==========
+
+[[model.PublicUser]]
+==== [orange,white-background]#PublicUser#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|id |ObjectId(string) |Object ID 
+|avatar |string |User avatar url 
+|firstname |string |User firstname 
+|lastname |string |User lastname 
+|facebookUserId |string |When user login or register signup with Facebook, this field will be updated 
+|email |string |User email address 
+|birth |Time |User birth 
+|countryCode |string | 
+|phoneCode |string | 
+|phone |string | 
+|createdAt |Time |User created date 
+|updatedAt |Time |User updated date. This field will be updated when any update operation will be occured 
+|==========
+
+[[response.BasicResponse]]
+==== [orange,white-background]#BasicResponse#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|status |int |HTTP Status 
+|messageType |string |Message type code 
+|message |string |Returned message 
+|==========
+
+
+[[forgotPassword]]
+== [red,white-background]#forgotPassword#
+
+[width="100%",options="header"]
+|==========
+|Specification |Value 
+|Resource Path |/forgotPassword 
+|API Version |1.0.0 
+|BasePath for the API |http://127.0.0.1:8000/api/v1 
+|Consumes |application/json 
+|Produces |application/json 
+|==========
+
+
+=== Operations
+
+
+[width="100%",options="header"]
+|==========
+|Resource Path |Operation |Description 
+|/forgotPassword |<<forgotPassword,POST>> |Forgot Password. 
+|==========
+
+
+
+[[forgotPassword]]
+==== [black,green-background]#API: /forgotPassword (POST)#
+
+
+Forgot Password.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|email |form |string |User Email. |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |string |Returns created user 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.bind 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.read 
+|==========
+
+
+
+=== Models
+
+[[response.BasicResponse]]
+==== [orange,white-background]#BasicResponse#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|status |int |HTTP Status 
+|messageType |string |Message type code 
+|message |string |Returned message 
+|==========
+
+
+[[verifyCode]]
+== [red,white-background]#verifyCode#
+
+[width="100%",options="header"]
+|==========
+|Specification |Value 
+|Resource Path |/verifyCode 
+|API Version |1.0.0 
+|BasePath for the API |http://127.0.0.1:8000/api/v1 
+|Consumes |application/json 
+|Produces |application/json 
+|==========
+
+
+=== Operations
+
+
+[width="100%",options="header"]
+|==========
+|Resource Path |Operation |Description 
+|/verifyCode |<<verifyCode,POST>> |Verify code. 
+|==========
+
+
+
+[[verifyCode]]
+==== [black,green-background]#API: /verifyCode (POST)#
+
+
+Verify code.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|email |form |string |User Email. |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |string |Returns token to reset password 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.bind 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.user.read 
+|==========
+
+
+
+=== Models
+
+[[response.BasicResponse]]
+==== [orange,white-background]#BasicResponse#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|status |int |HTTP Status 
+|messageType |string |Message type code 
+|message |string |Returned message 
+|==========
+
+
+[[upload]]
+== [red,white-background]#upload#
+
+[width="100%",options="header"]
+|==========
+|Specification |Value 
+|Resource Path |/upload 
+|API Version |1.0.0 
+|BasePath for the API |http://127.0.0.1:8000/api/v1 
+|Consumes |application/json 
+|Produces |application/json 
+|==========
+
+
+=== Operations
+
+
+[width="100%",options="header"]
+|==========
+|Resource Path |Operation |Description 
+|/upload/image |<<uploadImage,POST>> |Upload a image. 
+|==========
+
+
+
+[[uploadImage]]
+==== [black,green-background]#API: /upload/image (POST)#
+
+
+Upload a image.
+
+
+
+[width="100%",options="header"]
+|==========
+|Param Name |Param Type |Data Type |Description |Required? 
+|Authorization |header |string |Bearer {token} |Yes 
+|path |form |string |Path to upload image |Yes 
+|file |form |file |Buffer of image. |Yes 
+|==========
+
+
+[width="100%",options="header"]
+|==========
+|Code |Type |Model |Message 
+|200 |object |<<model.File,File>> |Returns uploaded image 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.file.create 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.file.open 
+|400 |object |<<response.BasicResponse,BasicResponse>> |err.file.copy 
+|==========
+
+
+
+=== Models
+
+[[model.File]]
+==== [orange,white-background]#File#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|name |string |File name 
+|extension |string |File name 
+|path |string |File stored path(url) 
+|size |int64 |File size(byte) 
+|createdAt |Time |File created time 
+|==========
+
+[[response.BasicResponse]]
+==== [orange,white-background]#BasicResponse#
+
+[width="100%",options="header"]
+|==========
+|Field Name |Field Type |Description 
+|status |int |HTTP Status 
+|messageType |string |Message type code 
+|message |string |Returned message 
+|==========
+
+
